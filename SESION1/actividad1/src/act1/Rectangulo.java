@@ -9,10 +9,9 @@ public class Rectangulo {
 
     // Constructor
     public Rectangulo(Coordenada c1, Coordenada c2) {
-        
         setEsquina1(c1);
         setEsquina2(c2);
-        
+
     }
 
     public void setEsquina1(Coordenada coo) {
@@ -35,8 +34,18 @@ public class Rectangulo {
     public String toString() {
         return "[" + "esquina1=" + this.esquina1 + ", esquina2=" + this.esquina2 + ']';
     }
-    
-    public static int calculoArea(){
-        
+
+    public static double calculoArea(Coordenada x, Coordenada y) {
+        double ancho = Math.abs(x.getX() - y.getX());
+        double alto = Math.abs(x.getY() - y.getY());
+        double area = ancho * alto;
+        return area;
+    }
+
+    public boolean intersects(Rectangulo otraFigura) {
+        if (!(otraFigura instanceof Rectangulo)) {
+            return false;
+        }
+        return true;
     }
 }
