@@ -29,10 +29,10 @@ public class Verificador {
             if (Verificador.esSobrePos(R1, R2) == true) {
                 System.out.println("Rectangulos A y B se sobreponen");
                 double r1, r2, rpt;
-                r1 = R1.calculoArea(R1.getEsquina1(), R1.getEsquina2());
-                r2 = R2.calculoArea(R1.getEsquina1(), R1.getEsquina2());
+                r1 = R1.getEsquina1().distancia(R1.getEsquina1(), R1.getEsquina2());
+                r2 = R2.getEsquina1().distancia(R2.getEsquina1(), R2.getEsquina2());
                 rpt = r1 - r2;
-                System.out.println("El Area es: " + rpt);
+                System.out.println("El Area Sobrepuesta es: " + rpt);
             } else {
                 System.out.println("Rectangulos A y B son disjuntos");
             }

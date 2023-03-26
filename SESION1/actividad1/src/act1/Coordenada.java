@@ -1,5 +1,6 @@
 package act1;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Coordenada {
@@ -41,8 +42,11 @@ public class Coordenada {
 
     }
 
-    public static double distancia(Coordenada c1, Coordenada c2) {
-        return Math.sqrt(Math.pow(c1.x - c2.x, 2) + Math.pow(c1.y - c2.y, 2));
+    public double distancia(Coordenada c1, Coordenada c2) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        double distancia = Math.sqrt(Math.pow(c1.x - c2.x, 2) + Math.pow(c1.y - c2.y, 2));
+        double numero = Double.parseDouble(df.format(distancia));
+        return numero;
 
     }
 

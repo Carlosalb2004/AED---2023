@@ -46,6 +46,9 @@ public class Principal {
         System.out.println("Rectangulo B = (" +  Arrays.toString(fx2) + "," + Arrays.toString(fy2)+")");
         
         Verificador.Verifica(A, B);
+        ContainerRect cR = new ContainerRect();
+        cR.addRectangulo(A, B);
+        System.out.println(cR);
     }
 
 

@@ -32,10 +32,10 @@ public class Rectangulo {
 
     @Override
     public String toString() {
-        return "[" + "esquina1=" + this.esquina1 + ", esquina2=" + this.esquina2 + ']';
+        return "(" + this.esquina1 + this.esquina2 + ")";
     }
 
-    public static double calculoArea(Coordenada x, Coordenada y) {
+    public double calculoArea(Coordenada x, Coordenada y) {
         double ancho = Math.abs(x.getX() - y.getX());
         double alto = Math.abs(x.getY() - y.getY());
         double area = ancho * alto;
