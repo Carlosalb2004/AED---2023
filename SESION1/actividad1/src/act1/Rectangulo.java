@@ -41,11 +41,4 @@ public class Rectangulo {
         double area = ancho * alto;
         return area;
     }
-
-    public boolean intersects(Rectangulo otraFigura) {
-        if (!(otraFigura instanceof Rectangulo)) {
-            return false;
-        }
-        return true;
-    }
 }

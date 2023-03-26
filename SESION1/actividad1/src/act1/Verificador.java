@@ -21,13 +21,30 @@ public class Verificador {
         this.R2 = R2;
     }
 
-    public static String Verifica(Rectangulo R1, Rectangulo R2) {
+    public static void Verifica(Rectangulo R1, Rectangulo R2) {
         int i, j;
-        double arrayX[] = new double[4];
-        double arrayY[] = new double[4];
-        Rectangulo auxR;
+        if (Verificador.esJunto(R1, R2) == true) {
+            System.out.println("Rectangulos A y B estan juntos");
+        } else {
+            if (Verificador.esSobrePos(R1, R2) == true) {
+                System.out.println("Rectangulos A y B se sobreponen");
+                double r1, r2, rpt;
+                r1 = R1.calculoArea(R1.getEsquina1(), R1.getEsquina2());
+                r2 = R2.calculoArea(R1.getEsquina1(), R1.getEsquina2());
+                rpt = r1 - r2;
+                System.out.println("El Area es: " + rpt);
+            } else {
+                System.out.println("Rectangulos A y B son disjuntos");
+            }
+        }
+    }
+
+    public static boolean esJunto(Rectangulo R1, Rectangulo R2) {
+        double X1, X2, X3, X4, Y1, Y2, Y3, Y4;
+        double X1S, X2S, Y1S, Y2S;
+        double X3S, X4S, Y3S, Y4S;
+
         Coordenada Esq1, Esq2, Esq3, Esq4;
-        double X1, X2, X3, X4, Y1, Y2, Y3, Y4, aux = 0;
 
         Esq1 = R1.getEsquina1();
         X1 = Esq1.getX();
@@ -37,6 +54,30 @@ public class Verificador {
         X2 = Esq2.getX();
         Y2 = Esq2.getY();
 
+        if (X1 < X2) {
+            X1S = X1;
+            if (Y1 < Y2) {
+                Y1S = Y1;
+                X2S = X2;
+                Y2S = Y2;
+            } else {
+                Y1S = Y2;
+                X2S = X2;
+                Y2S = Y1;
+            }
+        } else {
+            X1S = X2;
+            if (Y1 < Y2) {
+                Y1S = Y1;
+                X2S = X1;
+                Y2S = Y2;
+            } else {
+                Y1S = Y2;
+                X2S = X1;
+                Y2S = Y1;
+            }
+        }
+
         Esq3 = R2.getEsquina1();
         X3 = Esq3.getX();
         Y3 = Esq3.getY();
@@ -44,159 +85,193 @@ public class Verificador {
         Esq4 = R2.getEsquina2();
         X4 = Esq4.getX();
         Y4 = Esq4.getY();
-        X4 = aux;
 
-        arrayX[0] = X1;
-        arrayX[1] = X2;
-        arrayX[2] = X3;
-        arrayX[3] = X4;
-
-        arrayY[0] = Y1;
-        arrayY[1] = Y2;
-        arrayY[2] = Y3;
-        arrayY[3] = Y4;
-
-        boolean first = Verificador.esJunto(arrayX);
-        boolean second = Verificador.esJunto(arrayY);
-
-        if (first == true || second == true) {
-            System.out.println("Rectangulos A y B se juntan");
-        } else {
-            for (i = 0; i < arrayX.length - 1; i++) {
-                for (j = 0; j < arrayX.length - i - 1; j++) {
-                    if (arrayX[j + 1] < arrayX[j]) {
-                        aux = arrayX[j + 1];
-                        arrayX[j + 1] = arrayX[j];
-                        arrayX[j] = aux;
-                    }
-                }
-            }
-            X1 = arrayX[1];
-            X2 = arrayX[2];
-
-            for (i = 0; i < arrayY.length - 1; i++) {
-                for (j = 0; j < arrayY.length - i - 1; j++) {
-                    if (arrayY[j + 1] < arrayY[j]) {
-                        aux = arrayY[j + 1];
-                        arrayY[j + 1] = arrayY[j];
-                        arrayY[j] = aux;
-                    }
-
-                }
-            }
-            Y1 = arrayY[1];
-            Y2 = arrayY[2];
-
-            Esq1.setX(X1);
-            Esq1.setY(Y1);
-            Esq2.setX(X2);
-            Esq2.setY(Y2);
-            R1.setEsquina1(Esq1);
-            R1.setEsquina2(Esq2);
-
-            if ((X2 > X3 && X3 > X1) || (X4 > X1 && X1 > X3) || (Y2 > Y3 && Y3 > Y1) || (Y4 > Y2 && Y2 > Y3)) {
-                System.out.println("Rectangulos A y B son disjuntos");
+        if (X3 < X4) {
+            X3S = X3;
+            if (Y3 < Y4) {
+                Y3S = Y3;
+                X4S = X4;
+                Y4S = Y4;
             } else {
-                System.out.println("Rectangulos A y B se sobreponen");
-                System.out.println("El Area es: " + R1.calculoArea(Esq1, Esq2));
+                Y3S = Y4;
+                X4S = X4;
+                Y4S = Y3;
             }
-        }
-
-        /*
-        if (X1 <= X4 && X3 >= X2 && Y1 <= Y4 && Y3 >= Y2) {
-            System.out.println("Rectangulos A y B se sobreponen");
-        } else if (X1 == X4 || X3 == X2 || Y1 == Y4 || Y3 == Y2) {
-            System.out.println("Rectangulos A y B se juntan");
         } else {
-            System.out.println("Las figuras están disjuntas.");
-        }
-         */
- /*
-        boolean disjuntas = true;
-        Rectangulo[] figuras = {R1, R2};
-        for ( i = 0; i < figuras.length; i++) {
-            for ( j = i + 1; j < figuras.length; j++) {
-                if (figuras[i].intersects(figuras[j])) {
-                    disjuntas = false;
-                    break;
-                }
+            X3S = X4;
+            if (Y3 < Y4) {
+                Y3S = Y3;
+                X4S = X3;
+                Y4S = Y4;
+            } else {
+                Y3S = Y4;
+                X4S = X3;
+                Y4S = Y3;
             }
         }
-        if (disjuntas) {
-            System.out.println("Las figuras están disjuntas.");
+
+        if ((((X2S == X3S) || (Y2S == Y3S)) || ((X1S == X4S) || (Y1S == Y4S))) == true) {
+            return true;
         } else {
-            System.out.println("Las figuras se intersectan.");
+            return false;
         }
-          else if (X2 < X3 || Y2 < Y3) {
-            System.out.println("Rectangulos A y B son disjuntos");
-        } else {
-            for (i = 0; i < arrayX.length - 1; i++) {
-                for (j = 0; j < arrayX.length - i - 1; j++) {
-                    if (arrayX[j + 1] < arrayX[j]) {
-                        aux = arrayX[j + 1];
-                        arrayX[j + 1] = arrayX[j];
-                        arrayX[j] = aux;
-                    }
-                }
-            }
-            X1 = arrayX[1];
-            X2 = arrayX[2];
-
-            for (i = 0; i < arrayY.length - 1; i++) {
-                for (j = 0; j < arrayY.length - i - 1; j++) {
-                    if (arrayY[j + 1] < arrayY[j]) {
-                        aux = arrayY[j + 1];
-                        arrayY[j + 1] = arrayY[j];
-                        arrayY[j] = aux;
-                    }
-
-                }
-            }
-            Y1 = arrayY[1];
-            Y2 = arrayY[2];
-
-            Esq1.setX(X1);
-            Esq1.setY(Y1);
-            Esq2.setX(X2);
-            Esq2.setY(Y2);
-            R1.setEsquina1(Esq1);
-            R1.setEsquina2(Esq2);
-
-            System.out.println("Rectangulos A y B se sobreponen");
-            System.out.println("El Area es: " + R1.calculoArea(Esq1, Esq2));
-
-        }
-         */
-        return "error";
     }
 
-    public static boolean esJunto(double[] array) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = i + 1; j < array.length; j++) {
-                if (array[i] == array[j]) {
-                    return true;
-                }
+    public static boolean esDisjunto(Rectangulo R1, Rectangulo R2) {
+        /*
+        double X1, X2, X3, X4, Y1, Y2, Y3, Y4;
+        double X1S, X2S, Y1S, Y2S;
+        double X3S, X4S, Y3S, Y4S;
+
+        Coordenada Esq1, Esq2, Esq3, Esq4;
+
+        Esq1 = R1.getEsquina1();
+        X1 = Esq1.getX();
+        Y1 = Esq1.getY();
+
+        Esq2 = R1.getEsquina2();
+        X2 = Esq2.getX();
+        Y2 = Esq2.getY();
+
+        if (X1 < X2) {
+            X1S = X1;
+            if (Y1 < Y2) {
+                Y1S = Y1;
+                X2S = X2;
+                Y2S = Y2;
+            } else {
+                Y1S = Y2;
+                X2S = X2;
+                Y2S = Y1;
+            }
+        } else {
+            X1S = X2;
+            if (Y1 < Y2) {
+                Y1S = Y1;
+                X2S = X1;
+                Y2S = Y2;
+            } else {
+                Y1S = Y2;
+                X2S = X1;
+                Y2S = Y1;
             }
         }
+
+        Esq3 = R2.getEsquina1();
+        X3 = Esq3.getX();
+        Y3 = Esq3.getY();
+
+        Esq4 = R2.getEsquina2();
+        X4 = Esq4.getX();
+        Y4 = Esq4.getY();
+
+        if (X3 < X4) {
+            X3S = X3;
+            if (Y3 < Y4) {
+                Y3S = Y3;
+                X4S = X4;
+                Y4S = Y4;
+            } else {
+                Y3S = Y4;
+                X4S = X4;
+                Y4S = Y3;
+            }
+        } else {
+            X3S = X4;
+            if (Y3 < Y4) {
+                Y3S = Y3;
+                X4S = X3;
+                Y4S = Y4;
+            } else {
+                Y3S = Y4;
+                X4S = X3;
+                Y4S = Y3;
+            }
+        }
+
+        if (((X2S - X3S > 0) && (Y2S - Y3S < 0)) || ((Y1S - Y4S > 0))) {
+            return true;
+        } else {
+            return esSobrePos(R1, R2);
+        }
+         */
         return false;
     }
 
-}
+    public static boolean esSobrePos(Rectangulo R1, Rectangulo R2) {
+        double X1, X2, X3, X4, Y1, Y2, Y3, Y4;
+        double X1S, X2S, Y1S, Y2S;
+        double X3S, X4S, Y3S, Y4S;
 
+        Coordenada Esq1, Esq2, Esq3, Esq4;
 
-/*
-    public static void esSobrePos(Rectangulo r1, Rectangulo r2) {
+        Esq1 = R1.getEsquina1();
+        X1 = Esq1.getX();
+        Y1 = Esq1.getY();
 
-        Coordenada figura1 = r1.getEsquina1();
-        Coordenada figura2 = r2.getEsquina2();
+        Esq2 = R1.getEsquina2();
+        X2 = Esq2.getX();
+        Y2 = Esq2.getY();
 
-        ArrayList<Coordenada> figuraT1 = new ArrayList<>();
-        ArrayList<Coordenada> figuraT2 = new ArrayList<>();
+        if (X1 < X2) {
+            X1S = X1;
+            if (Y1 < Y2) {
+                Y1S = Y1;
+                X2S = X2;
+                Y2S = Y2;
+            } else {
+                Y1S = Y2;
+                X2S = X2;
+                Y2S = Y1;
+            }
+        } else {
+            X1S = X2;
+            if (Y1 < Y2) {
+                Y1S = Y1;
+                X2S = X1;
+                Y2S = Y2;
+            } else {
+                Y1S = Y2;
+                X2S = X1;
+                Y2S = Y1;
+            }
+        }
 
-        figuraT1.add(figura1);
-        figuraT2.add(figura2);
-        
-        System.out.println(figuraT1);
-        System.out.println(figuraT2);
+        Esq3 = R2.getEsquina1();
+        X3 = Esq3.getX();
+        Y3 = Esq3.getY();
+
+        Esq4 = R2.getEsquina2();
+        X4 = Esq4.getX();
+        Y4 = Esq4.getY();
+
+        if (X3 < X4) {
+            X3S = X3;
+            if (Y3 < Y4) {
+                Y3S = Y3;
+                X4S = X4;
+                Y4S = Y4;
+            } else {
+                Y3S = Y4;
+                X4S = X4;
+                Y4S = Y3;
+            }
+        } else {
+            X3S = X4;
+            if (Y3 < Y4) {
+                Y3S = Y3;
+                X4S = X3;
+                Y4S = Y4;
+            } else {
+                Y3S = Y4;
+                X4S = X3;
+                Y4S = Y3;
+            }
+        }
+        if ((((X1S < X3S) && (X3S < X2S)) || ((Y1S < Y3S) && (Y3S < Y2S))) || (((X3S < X1S) && (X1S < X2S) || ((Y3S < Y1S) && (Y1S < Y2S))))==true) {
+            return true;
+        } else {
+            return esDisjunto(R1, R2);
+        }
     }
- */
+}
